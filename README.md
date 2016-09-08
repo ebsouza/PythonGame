@@ -1,5 +1,6 @@
 # PythonGame
-A simple math game written in python.
+A simple math game written in python. This is in development.
 
--You need python installed in your machine.
--To run this game, execute **python main.py** in terminal.
+- To run this game, execute **python main.py** in terminal.
+- You need python installed in your machine.
+
