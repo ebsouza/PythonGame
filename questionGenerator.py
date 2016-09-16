@@ -10,7 +10,7 @@ class questionGenerator:
         #Values generated in ( a x b ) form
         self.a = 0
         self.b = 0
-        #Stores the last 3 numbers generated
+        #Stores last numbers generated
         self.historicalA = []
         self.historicalB = []
         #Answer of the question, ans = a x b
@@ -31,7 +31,7 @@ class questionGenerator:
             self.b = random.randint(minB,maxB)
 
             #Ensures that A and B aren't equal to 1
-            while self.a == 1 & self.b==1:
+            while self.a == 1 and self.b==1:
                 self.a = random.randint(minA,maxA)
                 self.b = random.randint(minB,maxB)
 

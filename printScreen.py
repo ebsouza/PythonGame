@@ -37,18 +37,29 @@ class printScreen:
         self.resetScreen()
         return int(choose)
 
+    #How to play this game
+    def howToPlay(self):
+        print ' \n '
+        print 'O jogo termina quando você responde as 20 questões ou erra mais de 5 vezes.'
+        print 'Boa sorte!'
+        print ' \n '
+        print 'Pressione qualquer tecla para iniciar a partida.'
+        raw_input()
+        self.resetScreen()
+
     #Gameplay header
-    def printHeader(self,right,wrong,round):
-        print '--------------------------------------'
-        print '| Acertos: '+ str(right) + ' / Erros: ' + str(wrong) + ' / Round: ' + str(round) + ' |'
-        print '--------------------------------------'
+    def printHeader(self,right,wrong,round,score):
+        print '---------------------------------------------------'
+        print '| Acertos: '+ str(right) + ' / Erros: ' + str(wrong) + ' / Round: ' + str(round) + \
+              ' / Pontuação: ' +  str(score) +' |'
+        print '---------------------------------------------------'
         print '                   '
 
     #Question
     def printQuestion(self,a,b):
-        print '---------------------------'
-        print '|          ' + str(a) +' x '+ str(b) + '          |'
-        print '---------------------------'
+        print '     ---------------------------'
+        print '     |          ' + str(a) +' x '+ str(b) + '          |'
+        print '     ---------------------------'
 
     #End game message
     def endGame(self, duration):

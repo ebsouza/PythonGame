@@ -6,6 +6,7 @@ from printScreen import printScreen
 from gameStatistics import gameStatistics
 import random
 import re
+import math
 
 #Class that manage every gameplay
 class roundGame:
@@ -23,34 +24,43 @@ class roundGame:
         self.level = 1
 
         #Time variables
-        self._time = time()
         self.duration = 0
+        self.questionMeanDuration = 0
 
-        #Objects relative Questions and Screen
-        self.question = questionGenerator()
-        self.screen = printScreen()
+	#Player score
+        self.score = 0
 
-    #Start the match
+    #Start the game
     def start(self):
 
+        #Main objects
+        question = questionGenerator()
+        screen = printScreen()
         statistics = gameStatistics()
 
-        #Gameplay condition, user can miss less than four times
-        while self.wrong < 10 and self.round <= 50:
+        #Show initial message
+        screen.howToPlay()
+
+        #Time
+        initialGameTime = time()
+
+        #Gameplay condition
+        while self.wrong <= 5 and self.round <= 20:
 
             #Set level difficulty
             self.level = self.updateLevel(self.round)
 
             #Generate the reader
-            self.screen.printHeader(self.right, self.wrong, self.round)
+            screen.printHeader(self.right, self.wrong, self.round, self.score)
             #Generate the question
-            self.question.generate(self.level)
+            question.generate(self.level)
             #Print the question
-            self.screen.printQuestion( self.question.a, self.question.b )
+            screen.printQuestion( question.a, question.b )
+
+            #Question time
+            initialQuestionTime = time()
 
             #User answer
-            #choose = int(raw_input())
-
             validInput = False
             pattern = r"^[0-9]([0-9])*$"
             while (not validInput):
@@ -61,28 +71,43 @@ class roundGame:
                     print 'Entrada inválida'
             choose = int(choose)
 
+            #Question duration
+            questionDuration = time() - initialQuestionTime
+            self.questionMeanDuration += questionDuration
+
             #Checking the answer
-            if ( self.question.ans == choose ):
-                #One more correct answer
+            if ( question.ans == choose ):
                 self.right += 1
+                #Score
+                score = math.ceil(5-questionDuration)
+                if ( score <= 1 ):
+                    self.score += 1
+                else:
+                    self.score += score
             else:
-                #one more incorrect answer
                 self.wrong += 1
+                #Score
+                if ( questionDuration < 5 ):
+                    self.score += 1
+
             self.round += 1
 
             #Screen cleaning
-            self.screen.resetScreen()
+            screen.resetScreen()
 
         #Gameplay duration
-        self.duration = time() - self._time
+        self.duration = time() - initialGameTime
+
+        #Question mean duration
+        self.questionMeanDuration /= self.round
 
         #Save Statistics
-        statistics.saveRecords( self.round, self.right, self.wrong, self.duration )
+        statistics.saveRecords( self.round, self.right, self.wrong, self.duration, self.questionMeanDuration, self.score )
 
     #Set level difficulty
     def updateLevel(self, round):
         #Define which round the level need to increase
-        rlRelation=[8,16,24,32,40,48]
+        rlRelation=[3,6,9,12,15,18]
 
         if ( round < rlRelation[0]):
             return 1
