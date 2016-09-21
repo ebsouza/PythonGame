@@ -13,26 +13,26 @@ I like to code, so I decided code this game to express some ideas and test some 
 In the main window( the first one ) you can choose if you wanna play or exit. If you 
 start to feel depressed after run the script, it’s recommended to press key 2 before the damage is permanent. I hope you wanna start, after choose the first option pressing the key 1, you will see the initial instructions. If you understood the instructions, you can press any key and start the game, if not you can write to ebsouza07@gmail.com and share your doubts with me. The game finishes when you miss five or answer a total of twenty questions.
 
-To run this game, execute **python** main.py on terminal.
+To run this game, execute **python main.py** on terminal.
 
 
 ## About the code
 
 This code use the Oriented Object paradigm, so each class has your own domain in general architecture.
 
--**gameStatistics**
+- **gameStatistics**
 
 Nowadays this class only receives and exports some player performance data. A file, named “statistics.csv”, is created to save this information. 
 
--**printScreen**
+- **printScreen**
 
 Every text printed in the screen is printed by printScreen object if another object prints, this code has a big problem.
 
--**questionGenerator**
+- **questionGenerator**
 
-If you wanna generate a question you need to call a questionGenerator object, this need a integer level as a parameter to generate a question with certain level of difficulty( ranging from 1 to 6 ).
+If you wanna generate a question you need to call a questionGenerator object, this need a integer **level** as parameter to generate a question with certain level of difficulty( ranging from 1 to 6 ).
 
--**roundGame**
+- **roundGame**
 
 This object is responsible to give you fun, if it doesn’t do this it’s not my fault. This object knows everything about the current gameplay, knows set a question level according to current round and manage the gameplay very well.
 
