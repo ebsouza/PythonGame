@@ -67,7 +67,7 @@ class printScreen:
         print '                         '
         print ' ----- Tempo de jogo : ' + str(duration) + ' segundos -----'
         print '                         '
-        print ' Você perdeu. Aperte qualquer tecla para continuar'
+        print ' O jogo acabou. Aperte qualquer tecla para continuar'
         raw_input()
         self.resetScreen()
 

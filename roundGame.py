@@ -45,7 +45,7 @@ class roundGame:
         initialGameTime = time()
 
         #Gameplay condition
-        while self.wrong <= 5 and self.round <= 20:
+        while self.wrong <= 5 and self.round < 20:
 
             #Set level difficulty
             self.level = self.updateLevel(self.round)
