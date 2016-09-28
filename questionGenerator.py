@@ -16,7 +16,7 @@ class questionGenerator:
         #Answer of the question, ans = a x b
         self.ans = 0
         #Range of numbers(1-10) in 3 levels
-        self.minMaxLevels = { 1:[1,3] , 2:[4,6] , 3:[7,9] }
+        self.minMaxLevels = { 1:[1,3] , 2:[2,4] , 3:[4,6] , 4:[5,7] , 5:[7,9] }
 
     #Generates the ( ans = a x b ) expression in 6 difficulty levels
     def generate(self, level):
@@ -50,7 +50,9 @@ class questionGenerator:
     def validateQuestion(self,a,b):
         #Compares the current generated numbers with respective historical
         for i in range(len(self.historicalA)):
-            if ( a == self.historicalA[i] or b == self.historicalB[i] ):
+            A = self.historicalA[i]
+            B = self.historicalB[i]
+            if ( a == A or b == B or a == B or b == A):
                 return True
         return False
 
@@ -71,30 +73,30 @@ class questionGenerator:
         #Level 1 - A:(1,3) ; B(1:3)
         if level == 1:
             minA, maxA = self.minMaxLevels[1]
-            minB, maxB = self.minMaxLevels[1]
+            minB, maxB = self.minMaxLevels[2]
             return minA, maxA, minB, maxB
         # Level 2 - A:(1,3) ; B(4:6)
         elif level == 2:
-            minA, maxA = self.minMaxLevels[1]
+            minA, maxA = self.minMaxLevels[2]
             minB, maxB = self.minMaxLevels[2]
             return minA, maxA, minB, maxB
         # Level 3 - A:(1,3) ; B(7:9)
         elif level == 3:
-            minA, maxA = self.minMaxLevels[1]
+            minA, maxA = self.minMaxLevels[2]
             minB, maxB = self.minMaxLevels[3]
             return minA, maxA, minB, maxB
         # Level 4 - A:(4,6) ; B(4:6)
         elif level == 4:
-            minA, maxA = self.minMaxLevels[2]
-            minB, maxB = self.minMaxLevels[2]
+            minA, maxA = self.minMaxLevels[3]
+            minB, maxB = self.minMaxLevels[3]
             return minA, maxA, minB, maxB
         # Level 5 - A:(4,6) ; B(7:9)
         elif level == 5:
-            minA, maxA = self.minMaxLevels[2]
-            minB, maxB = self.minMaxLevels[3]
+            minA, maxA = self.minMaxLevels[3]
+            minB, maxB = self.minMaxLevels[4]
             return minA, maxA, minB, maxB
         # Level 6 - A:(7,9) ; B(7:9)
         else:
-            minA, maxA = self.minMaxLevels[3]
-            minB, maxB = self.minMaxLevels[3]
+            minA, maxA = self.minMaxLevels[4]
+            minB, maxB = self.minMaxLevels[5]
             return minA, maxA, minB, maxB
