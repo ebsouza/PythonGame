@@ -107,7 +107,7 @@ class roundGame:
     #Set level difficulty
     def updateLevel(self, round):
         #Define which round the level need to increase
-        rlRelation=[3,6,9,12,15,18]
+        rlRelation=[2,5,8,12,16,21]
 
         if ( round < rlRelation[0]):
             return 1
