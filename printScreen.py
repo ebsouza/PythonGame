@@ -18,14 +18,15 @@ class printScreen:
         print ' Escolha uma das opções abaixo para navegar no jogo '
         print ' --------------------------------------------------- '
         print '    '
-        print ' - Digite 1 para iniciar uma partida'
-        print ' - Digite 2 para sair do programa'
+        print ' - Digite 1 para iniciar uma partida de multiplicação'
+        print ' - Digite 2 para iniciar uma partida de soma'
+        print ' - Digite 3 para sair do programa'
         print '    '
         print ' --------------------------------------------------- '
 
         #User choose
         validInput = False
-        pattern = r"^[1-2]$"
+        pattern = r"^[1-3]$"
         while (not validInput):
             choose = raw_input()
             if re.match(pattern, choose):
@@ -59,6 +60,12 @@ class printScreen:
     def printQuestion(self,a,b):
         print '           ---------------------------'
         print '           |          ' + str(a) +' x '+ str(b) + '          |'
+        print '           ---------------------------'
+
+    #Question Sum
+    def printSumQuestion(self,a,b):
+        print '           ---------------------------'
+        print '           |          ' + str(a) +' + '+ str(b) + '          |'
         print '           ---------------------------'
 
     #Feedback during the gameplay

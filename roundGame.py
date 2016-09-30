@@ -2,6 +2,7 @@
 
 from time import time
 from questionGenerator import questionGenerator
+from questionSumGenerator import questionSumGenerator
 from printScreen import printScreen
 from gameStatistics import gameStatistics
 import random
@@ -12,7 +13,7 @@ import math
 class roundGame:
 
     #Constructor
-    def __init__(self):
+    def __init__(self,type):
         #Right and wrong questions
         self.right = 0
         self.wrong = 0
@@ -27,14 +28,20 @@ class roundGame:
         self.duration = 0
         self.questionMeanDuration = 0
 
-	#Player score
+	    #Player score
         self.score = 0
+
+        #Type question
+        self.type = type
 
     #Start the game
     def start(self):
 
         #Main objects
-        question = questionGenerator()
+        if (self.type == 'mult'):
+            question = questionGenerator()
+        elif (self.type == 'sum'):
+            question = questionSumGenerator()
         screen = printScreen()
         statistics = gameStatistics()
 
@@ -51,7 +58,7 @@ class roundGame:
         while self.wrong < 5 and self.round < 20:
 
             #Set level difficulty
-            self.level = self.updateLevel(self.round)
+            self.level = question.updateLevel(self.round)
 
             #Print the reader
             screen.printHeader(self.right, self.wrong, self.round, self.score)
@@ -60,7 +67,10 @@ class roundGame:
             #Print the feedback
             screen.feedBack(self.round, isCorrect)
             #Print the question
-            screen.printQuestion( question.a, question.b )
+            if (self.type == 'mult'):
+                screen.printQuestion(question.a, question.b)
+            elif (self.type == 'sum'):
+                screen.printSumQuestion(question.a, question.b)
 
             #Question time
             initialQuestionTime = time()
@@ -108,28 +118,11 @@ class roundGame:
         #Question mean duration
         self.questionMeanDuration /= self.round
 
+        print 'save'
         #Save Statistics
-        statistics.saveRecords( self.round, self.right, self.wrong, self.duration, self.questionMeanDuration, self.score )
-
+        statistics.saveRecords( self.round, self.right, self.wrong, self.duration, self.questionMeanDuration, self.score, self.type )
+        print 'saved'
         #End game
         screen.endGame(math.floor(self.duration))
 
-    #Set level difficulty
-    def updateLevel(self, round):
-        #Define which round the level need to increase
-        rlRelation=[2,5,8,12,16,21]
 
-        if ( round < rlRelation[0]):
-            return 1
-        elif (rlRelation[0] <= round < rlRelation[1]):
-            return 2
-        elif ( rlRelation[1] <= round < rlRelation[2] ):
-            return 3
-        elif ( rlRelation[2] <= round < rlRelation[3] ):
-            return 4
-        elif ( rlRelation[3] <= round < rlRelation[4] ):
-            return 5
-        elif ( rlRelation[4] <= round < rlRelation[5] ):
-            return 6
-        else:
-            return random.randint(4,6)

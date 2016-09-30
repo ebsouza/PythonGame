@@ -3,11 +3,11 @@
 import random
 
 #Class that generate questions
-class questionGenerator:
+class questionSumGenerator:
 
     #Constructor
     def __init__(self):
-        #Values generated in ( a x b ) form
+        #Values generated in ( a + b ) form
         self.a = 0
         self.b = 0
         #Stores last numbers generated
@@ -16,7 +16,7 @@ class questionGenerator:
         #Answer of the question, ans = a x b
         self.ans = 0
         #Range of numbers in each level
-        self.minMaxLevels = { 1:[1,3] , 2:[2,5] , 3:[4,6] , 4:[5,8] , 5:[7,9] }
+        self.minMaxLevels = { 1:[1,8] , 2:[5,15] , 3:[15,25] , 4:[20,30] , 5:[25,50] }
 
     #Generates the ( ans = a x b ) expression in 6 difficulty levels
     def generate(self, level):
@@ -43,9 +43,9 @@ class questionGenerator:
         self.updateHistoricalList( self.a, self.b )
 
         #Answer of the generated question ( ans = a x b )
-        self.ans = self.a * self.b
+        self.ans = self.a + self.b
 
-    #Checks if A x B is a valid question
+    #Checks if A + B is a valid question
     def validateQuestion(self,a,b):
         #Compares the current generated numbers with respective historical
         for i in range(len(self.historicalA)):
@@ -56,47 +56,41 @@ class questionGenerator:
         return False
 
     #Updates the A, B historical
-    #( This need to be tested )!!!
     def updateHistoricalList(self,a,b):
         #Add the new generated valid values
         self.historicalA.append(a)
         self.historicalB.append(b)
         #Remove the old values like a queue
         #The historical structure stores the last 1 generated numbers
-        if ( len(self.historicalA) == 2 ):
+        if ( len(self.historicalA) == 5 ):
             self.historicalA.pop(0)
             self.historicalB.pop(0)
 
     #Returns the min/max of A and B in function of informed level
     def randomMinMax(self,level):
-        #Level 1 - A:(1,3) ; B(2,5)
+        #Level 1
         if level == 1:
             minA, maxA = self.minMaxLevels[1]
-            minB, maxB = self.minMaxLevels[2]
+            minB, maxB = self.minMaxLevels[1]
             return minA, maxA, minB, maxB
-        # Level 2 - A:(2,5) ; B(2,5)
+        # Level 2
         elif level == 2:
             minA, maxA = self.minMaxLevels[2]
             minB, maxB = self.minMaxLevels[2]
             return minA, maxA, minB, maxB
-        # Level 3 - A:(2,5) ; B(4,6)
+        # Level 3
         elif level == 3:
-            minA, maxA = self.minMaxLevels[2]
+            minA, maxA = self.minMaxLevels[3]
             minB, maxB = self.minMaxLevels[3]
             return minA, maxA, minB, maxB
-        # Level 4 - A:(4,6) ; B(4,6)
+        # Level 4
         elif level == 4:
-            minA, maxA = self.minMaxLevels[3]
-            minB, maxB = self.minMaxLevels[3]
-            return minA, maxA, minB, maxB
-        # Level 5 - A:(4,6) ; B(5,8)
-        elif level == 5:
-            minA, maxA = self.minMaxLevels[3]
+            minA, maxA = self.minMaxLevels[4]
             minB, maxB = self.minMaxLevels[4]
             return minA, maxA, minB, maxB
-        # Level 6 - A:(5,8) ; B(7,9)
+        # Level 5
         else:
-            minA, maxA = self.minMaxLevels[4]
+            minA, maxA = self.minMaxLevels[5]
             minB, maxB = self.minMaxLevels[5]
             return minA, maxA, minB, maxB
 
@@ -104,7 +98,7 @@ class questionGenerator:
     #Set level difficulty
     def updateLevel(self, round):
         #Define which round the level need to increase
-        rlRelation=[2,5,8,12,16,21]
+        rlRelation=[3,9,16,19,21]
 
         if ( round < rlRelation[0]):
             return 1
@@ -116,7 +110,5 @@ class questionGenerator:
             return 4
         elif ( rlRelation[3] <= round < rlRelation[4] ):
             return 5
-        elif ( rlRelation[4] <= round < rlRelation[5] ):
-            return 6
         else:
             return random.randint(4,6)
