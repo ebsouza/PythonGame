@@ -8,7 +8,7 @@ screen = printScreen()
 #Stores the user choose
 choose = 0
 #Main loop
-while choose != 3:
+while choose != 4:
     #Initial screen
     choose = screen.initialScreen()
 
@@ -27,6 +27,14 @@ while choose != 3:
         game.start()
         #Delete the gameplay object
         del game
+    if (choose == 3):
+        #Instantiates the object gameplay
+        game = roundGame('sub')
+        #Start gameplay
+        game.start()
+        #Delete the gameplay object
+        del game
+
     else:
         # Display the exit screen
         screen.exitScreen()

@@ -3,20 +3,20 @@
 import random
 
 #Class that generate questions
-class questionSumGenerator:
+class questionSubGenerator:
 
     #Constructor
     def __init__(self):
-        #Values generated in ( a + b ) form
+        #Values generated in ( a - b ) form
         self.a = 0
         self.b = 0
         #Stores last numbers generated
         self.historicalA = []
         self.historicalB = []
-        #Answer of the question, ans = a + b
+        #Answer of the question, ans = a - b
         self.ans = 0
         #Range of numbers in each level
-        self.minMaxLevels = { 1:[1,8] , 2:[5,15] , 3:[15,25] , 4:[20,30] , 5:[25,50] }
+        self.minMaxLevels = { 1:[1,10] , 2:[8,14] , 3:[16,22] , 4:[26,33] , 5:[41,50] }
 
     #Generates the ( ans = a x b ) expression in 6 difficulty levels
     def generate(self, level):
@@ -43,16 +43,27 @@ class questionSumGenerator:
         self.updateHistoricalList( self.a, self.b )
 
         #Answer of the generated question ( ans = a x b )
-        self.ans = self.a + self.b
+        self.ans = self.a - self.b
 
-    #Checks if A + B is a valid question
+    #Checks if A - B is a valid question
     def validateQuestion(self,a,b):
+
+        if (self.a == self.b):
+            self.a += random.randint(1,5)
+
+        #Change a,b if a-b<0
+        if ( (self.a - self.b) < 0 ):
+            aux = self.b
+            self.b = self.a
+            self.a = aux
+
         #Compares the current generated numbers with respective historical
         for i in range(len(self.historicalA)):
             A = self.historicalA[i]
             B = self.historicalB[i]
-            if ( a == A or b == B or a == B or b == A):
+            if ( a == A or b == B ):
                 return True
+
         return False
 
     #Updates the A, B historical
@@ -62,7 +73,7 @@ class questionSumGenerator:
         self.historicalB.append(b)
         #Remove the old values like a queue
         #The historical structure stores the last 1 generated numbers
-        if ( len(self.historicalA) == 5 ):
+        if ( len(self.historicalA) == 3 ):
             self.historicalA.pop(0)
             self.historicalB.pop(0)
 
@@ -76,22 +87,22 @@ class questionSumGenerator:
         # Level 2
         elif level == 2:
             minA, maxA = self.minMaxLevels[2]
-            minB, maxB = self.minMaxLevels[2]
+            minB, maxB = self.minMaxLevels[1]
             return minA, maxA, minB, maxB
         # Level 3
         elif level == 3:
             minA, maxA = self.minMaxLevels[3]
-            minB, maxB = self.minMaxLevels[3]
+            minB, maxB = self.minMaxLevels[2]
             return minA, maxA, minB, maxB
         # Level 4
         elif level == 4:
             minA, maxA = self.minMaxLevels[4]
-            minB, maxB = self.minMaxLevels[4]
+            minB, maxB = self.minMaxLevels[3]
             return minA, maxA, minB, maxB
         # Level 5
         else:
             minA, maxA = self.minMaxLevels[5]
-            minB, maxB = self.minMaxLevels[5]
+            minB, maxB = self.minMaxLevels[4]
             return minA, maxA, minB, maxB
 
 

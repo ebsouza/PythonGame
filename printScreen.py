@@ -20,13 +20,14 @@ class printScreen:
         print '    '
         print ' - Digite 1 para iniciar uma partida de multiplicação'
         print ' - Digite 2 para iniciar uma partida de soma'
-        print ' - Digite 3 para sair do programa'
+        print ' - Digite 3 para iniciar uma partida de subtração'
+        print ' - Digite 4 para sair do programa'
         print '    '
         print ' --------------------------------------------------- '
 
         #User choose
         validInput = False
-        pattern = r"^[1-3]$"
+        pattern = r"^[1-4]$"
         while (not validInput):
             choose = raw_input()
             if re.match(pattern, choose):
@@ -66,6 +67,12 @@ class printScreen:
     def printSumQuestion(self,a,b):
         print '           ---------------------------'
         print '           |          ' + str(a) +' + '+ str(b) + '          |'
+        print '           ---------------------------'
+
+    #Question Sub
+    def printSubQuestion(self,a,b):
+        print '           ---------------------------'
+        print '           |          ' + str(a) +' - '+ str(b) + '          |'
         print '           ---------------------------'
 
     #Feedback during the gameplay

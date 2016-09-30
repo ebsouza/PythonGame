@@ -3,6 +3,7 @@
 from time import time
 from questionGenerator import questionGenerator
 from questionSumGenerator import questionSumGenerator
+from questionSubGenerator import questionSubGenerator
 from printScreen import printScreen
 from gameStatistics import gameStatistics
 import random
@@ -42,6 +43,8 @@ class roundGame:
             question = questionGenerator()
         elif (self.type == 'sum'):
             question = questionSumGenerator()
+        elif (self.type == 'sub'):
+            question = questionSubGenerator()
         screen = printScreen()
         statistics = gameStatistics()
 
@@ -71,6 +74,8 @@ class roundGame:
                 screen.printQuestion(question.a, question.b)
             elif (self.type == 'sum'):
                 screen.printSumQuestion(question.a, question.b)
+            elif (self.type == 'sub'):
+                screen.printSubQuestion(question.a, question.b)
 
             #Question time
             initialQuestionTime = time()
@@ -118,10 +123,10 @@ class roundGame:
         #Question mean duration
         self.questionMeanDuration /= self.round
 
-        print 'save'
+
         #Save Statistics
         statistics.saveRecords( self.round, self.right, self.wrong, self.duration, self.questionMeanDuration, self.score, self.type )
-        print 'saved'
+
         #End game
         screen.endGame(math.floor(self.duration))
 

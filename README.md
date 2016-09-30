@@ -32,7 +32,7 @@ Every text printed in the screen is printed by printScreen object if another obj
 
 If you wanna generate a question you need to call a questionGenerator object, this need a integer **level** as parameter to generate a question with certain level of difficulty( ranging from 1 to 6 ).
 
-Obs: Recently I add **questionSumGenerator** to generate questions sum
+Obs: Recently I add **questionSumGenerator** and **questionSumGenerator** to generate questions of addition and subtraction, respectively.
 
 - **roundGame**
 
