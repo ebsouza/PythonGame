@@ -49,17 +49,31 @@ class printScreen:
 
     #Gameplay header
     def printHeader(self,right,wrong,round,score):
-        print '---------------------------------------------------'
-        print '| Acertos: '+ str(right) + ' / Erros: ' + str(wrong) + ' / Round: ' + str(round) + \
+        print '   ---------------------------------------------------'
+        print '   | Acertos: '+ str(right) + ' / Erros: ' + str(wrong) + ' / Round: ' + str(round) + \
               ' / Pontuação: ' +  str(score) +' |'
-        print '---------------------------------------------------'
+        print '   ---------------------------------------------------'
         print '                   '
 
     #Question
     def printQuestion(self,a,b):
-        print '     ---------------------------'
-        print '     |          ' + str(a) +' x '+ str(b) + '          |'
-        print '     ---------------------------'
+        print '           ---------------------------'
+        print '           |          ' + str(a) +' x '+ str(b) + '          |'
+        print '           ---------------------------'
+
+    #Feedback during the gameplay
+    def feedBack(self, round, isCorrect):
+
+        print '\n'
+
+        if ( round == 1):
+            print 'Seja rápido, quanto mais rápido responder mais pontos ganhará!'
+        elif (isCorrect):
+            print '             Parabéns, você acertou!'
+        else:
+            print '           Você errou a última questão.'
+
+        print '\n'
 
     #End game message
     def endGame(self, duration):

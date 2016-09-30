@@ -44,16 +44,21 @@ class roundGame:
         #Time
         initialGameTime = time()
 
+        #If the last question was correctly answered
+        isCorrect = True
+
         #Gameplay condition
         while self.wrong <= 5 and self.round < 20:
 
             #Set level difficulty
             self.level = self.updateLevel(self.round)
 
-            #Generate the reader
+            #Print the reader
             screen.printHeader(self.right, self.wrong, self.round, self.score)
             #Generate the question
             question.generate(self.level)
+            #Print the feedback
+            screen.feedBack(self.round, isCorrect)
             #Print the question
             screen.printQuestion( question.a, question.b )
 
@@ -78,6 +83,7 @@ class roundGame:
             #Checking the answer
             if ( question.ans == choose ):
                 self.right += 1
+                isCorrect = True
                 #Score
                 score = math.ceil(5-questionDuration)
                 if ( score <= 1 ):
@@ -86,6 +92,7 @@ class roundGame:
                     self.score += score
             else:
                 self.wrong += 1
+                isCorrect = False
                 #Score
                 if ( questionDuration < 5 ):
                     self.score += 1
