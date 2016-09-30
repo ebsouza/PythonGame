@@ -25,7 +25,7 @@ class printScreen:
 
         #User choose
         validInput = False
-        pattern = r"^[0-9]$"
+        pattern = r"^[1-2]$"
         while (not validInput):
             choose = raw_input()
             if re.match(pattern, choose):

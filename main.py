@@ -18,18 +18,10 @@ while choose != 2:
         game = roundGame()
         #Start gameplay
         game.start()
-        #End game message
-        screen.endGame(game.duration)
         #Delete the gameplay object
         del game
-    elif (choose==2):
-        #do nothing
-        print ' '
     else:
-        #Invalid enter
-        screen.invalidEnter()
+        # Display the exit screen
+        screen.exitScreen()
 
-
-#Display the exit screen
-screen.exitScreen()
 

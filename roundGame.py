@@ -48,7 +48,7 @@ class roundGame:
         isCorrect = True
 
         #Gameplay condition
-        while self.wrong <= 5 and self.round < 20:
+        while self.wrong < 5 and self.round < 20:
 
             #Set level difficulty
             self.level = self.updateLevel(self.round)
@@ -110,6 +110,9 @@ class roundGame:
 
         #Save Statistics
         statistics.saveRecords( self.round, self.right, self.wrong, self.duration, self.questionMeanDuration, self.score )
+
+        #End game
+        screen.endGame(math.floor(self.duration))
 
     #Set level difficulty
     def updateLevel(self, round):
