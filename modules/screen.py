@@ -70,8 +70,9 @@ class creditsScreen():
         try:
             self.next[c].print()
         except KeyError:
-            if c == self.routes["main"]:
-                self.next[c] = mainScreen()
+            os.system("clear")
+            print("Um erro ocorreu")
+            quit()
         self.next[c].print()
 
     def print(self):
@@ -88,3 +89,10 @@ class exitScreen():
         print("Pressione qualquer tecla para sair")
         input("")
         quit()
+
+
+class routes():
+    def __init__(self, code, option, reference):
+        self.code = code
+        self.option = option
+        self.reference = reference
