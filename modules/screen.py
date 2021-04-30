@@ -1,51 +1,90 @@
 import os
 
-class Screen:
+class mainScreen():
 
-    @classmethod
-    def main(cls):
-        cls.clear()
+    def __init__(self):
+        self.next = {}
+        self.code = "main"
+        self.routes = {"playGame": ("1",),
+                       "credits": ("2",),
+                       "exit": ("3",)}
+        self.options = self.getOptions()
+
+    def getOptions(self):
+        options = [ i[0] for i in self.routes.values() ]
+        return options
+
+    def requestInput(self):
+        c = "X"
+        while c not in self.options:
+            c = input("")
+        self.getNext(c)
+
+    def getNext(self, c):
+        try:
+            self.next[c].print()
+        except KeyError:
+            prev = (self.code, self)
+            if c == self.routes["exit"][0]:
+                self.next[c] = exitScreen()
+            elif c == self.routes["credits"][0]:
+                self.next[c] = creditsScreen(prev)
+            elif c == self.routes["playGame"][0]:
+                self.next[c] = playScreen(prev)
+        self.next[c].print()
+
+    def print(self):
+        os.system("clear")
         print("Seja bem-vindo")
         print("Escolha as opções:")
         print("[1] - Iniciar o jogo ")
         print("[2] - Créditos ")
         print("[3] - Sair ")
-        c = input("")
-        return c
 
-    @classmethod
-    def playGame(cls):
-        cls.clear()
-        print("Iniciar a partida")
-        print("[1] - Soma ")
-        print("[2] - Subtração ")
-        print("[3] - Multiplicação ")
-        print("[4] - Divisão ")
-        print("[5] - Misto ")
-        print(" -- ")
-        print("[6] - Sair ")
-        c = input("")
-        return c
+        self.requestInput()
 
-    @classmethod
-    def level(cls):
-        cls.clear()
-        print("IEscolha o seu nível")
-        print("[1] - Iniciante ")
-        print("[2] - Intermediário ")
-        print("[3] - Avançado ")
-        print(" -- ")
-        print("[4] - Sair ")
-        c = input("")
-        return c
 
-    @classmethod
-    def credits(cls):
-        cls.clear()
-        print("Developed by EBSouza")
-        c = input("")
-        return c
+class creditsScreen():
 
-    @staticmethod
-    def clear():
+    def __init__(self, prev):
+        self.next = {}
+        self.routes = {"main": "1"}
+        self.options = self.getOptions()
+        self.solvePrev(prev)
+
+    def solvePrev(self, prev):
+        choice = self.routes[prev[0]]
+        self.next[choice] = prev[1]
+
+    def getOptions(self):
+        options = [ i for i in self.routes.values() ]
+        return options
+
+    def requestInput(self):
+        c = input("")
+        while c not in self.options:
+            c = input("")
+        self.getNext(c)
+
+    def getNext(self, c):
+        try:
+            self.next[c].print()
+        except KeyError:
+            if c == self.routes["main"]:
+                self.next[c] = mainScreen()
+        self.next[c].print()
+
+    def print(self):
         os.system("clear")
+        print("Developed by EBSouza")
+        self.requestInput()
+
+
+class exitScreen():
+
+    def print(self):
+        os.system("clear")
+        print("Obrigado pela sua participação \n \n")
+        print("Pressione qualquer tecla para sair")
+        input("")
+        quit()
