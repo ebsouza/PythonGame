@@ -1,4 +1,4 @@
-from modules.screen import mainScreen
+from modules.screen import MainScreen
 
-main = mainScreen()
+main = MainScreen()
 main.print()
