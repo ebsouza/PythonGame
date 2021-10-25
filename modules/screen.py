@@ -1,18 +1,17 @@
+# -*- coding: utf-8 -*-
+
 import os
 import time
+from abc import ABC, abstractmethod
+
 from modules.routes import Routes
 from modules.question import Manager
 
 
-class MainScreen:
+class Screen(ABC):
 
-    def __init__(self):
-        self.id = {"code": "main",  
-                   "reference": self}
-        self.routes = Routes()
-        self.routes.addRoute("playGame", "1", PlayScreen(self.id))
-        self.routes.addRoute("credits", "2", CreditsScreen(self.id))
-        self.routes.addRoute("exit", "3", ExitScreen())
+    routes = Routes()
+    show_options = True
 
     def requestInput(self):
         c = "--"
@@ -25,51 +24,60 @@ class MainScreen:
             nextScreen = self.routes.getReference(c)
             nextScreen.print()
         except Exception as e:
-            print("Desculpe, ocorreu um erro.")
-            print(e)
+            print(f"Desculpe, ocorreu um erro. {e}")
 
     def print(self):
         os.system("clear")
-        print("Seja bem-vindo")
-        print("Escolha as opções:")
-        print("[1] - Iniciar o jogo ")
-        print("[2] - Créditos ")
-        print("[3] - Sair ")
+        self.text_screen()
+
+        if self.show_options:
+            for data in self.routes.data:
+                print(f"[{data['option']}] - {data['code']} ")
 
         self.requestInput()
 
+    @abstractmethod
+    def text_screen(self):
+        pass
 
-class CreditsScreen:
+
+class MainScreen(Screen):
+
+    def __init__(self):
+        self.id = {"code": "main",
+                   "reference": self}
+        self.routes.addRoute("playGame", "1", PlayScreen(self.id))
+        self.routes.addRoute("credits", "2", CreditsScreen(self.id))
+        self.routes.addRoute("exit", "3", ExitScreen())
+
+    def text_screen(self):
+        os.system("clear")
+        print("Seja bem-vindo")
+        print("Escolha as opções:")
+
+
+class CreditsScreen(Screen):
 
     def __init__(self, prev_reference):
-        self.id = {"code": "credits",  
+        self.id = {"code": "credits",
                    "reference": self}
         self.routes = Routes()
         self.routes.addRoute(prev_reference["code"], "1", prev_reference["reference"])
+        self.show_options = False
 
     def requestInput(self):
         input("")
         self.next("1")
 
-    def next(self, c):
-        try:
-            nextScreen = self.routes.getReference(c)
-            nextScreen.print()
-        except Exception as e:
-            print("Desculpe, ocorreu um erro.")
-            print(e)
-
-    def print(self):
-        os.system("clear")
+    def text_screen(self):
         print("Developed by EBSouza \n \n")
         print("Pressione [ENTER] para sair")
-        self.requestInput()
 
 
-class PlayScreen:
+class PlayScreen(Screen):
 
     def __init__(self, prev_reference):
-        self.id = {"code": "playGame",  
+        self.id = {"code": "playGame",
                    "reference": self}
         self.routes = Routes()
         self.routes.addRoute("iniciar", "1", Manager("1", self.id))
@@ -79,30 +87,8 @@ class PlayScreen:
         self.routes.addRoute(prev_reference["code"], "5", prev_reference["reference"])
         self.question = ["1", "2", "3", "4", "5"]
 
-    def requestInput(self):
-        c = "--"
-        while c not in self.routes.options:
-            c = input("")
-        self.next(c)
-
-    def next(self, c):
-        try:
-            nextScreen = self.routes.getReference(c)
-            nextScreen.print()
-        except Exception as e:
-            print("Desculpe, ocorreu um erro.")
-            print(e)
-
-    def print(self):
-        os.system("clear")
+    def text_screen(self):
         print("Modos de jogo \n")
-        print("[1] Soma")
-        print("[2] Subtração")
-        print("[3] Multiplicação")
-        print("[4] Divisão")
-        print("\n")
-        print("[5] Voltar para tela principal")
-        self.requestInput()
 
 
 class ExitScreen:

@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 
-class Routes():
+class Routes:
     def __init__(self):
         self.data = []
         self.options = []
