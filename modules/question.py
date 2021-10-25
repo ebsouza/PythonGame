@@ -1,7 +1,7 @@
-# Herda de um generator genérico
 import random
 import os
 import time
+
 
 class SumGenerator:
 
@@ -35,13 +35,29 @@ class Question:
     def __str__(self):
         return self.text
 
+    def print(self):
+        os.system("clear")
+        print("Questão")
+        print(self.text)
 
-QUESTION_MAPPER = {
-    "1": SumGenerator(),
-    "2": SumGenerator(),
-    "3": SumGenerator(),
-    "4": SumGenerator()
-}
+        print("")
+        print("Alternativas")
+        print(f'a) {self.alternatives["a"]}')
+        print(f'b) {self.alternatives["b"]}')
+        print(f'c) {self.alternatives["c"]}')
+        print(f'd) {self.alternatives["d"]}')
+
+    def check_answer(self, result):
+        print("")
+        ans = int(input("Resposta:"))
+
+        if self.alternatives["ans"] == ans:
+            result["correct"] += 1
+            print("Acertou!")
+        else:
+            result["incorrect"] += 1
+            print("Errou!")
+
 
 class Manager:
 
@@ -69,30 +85,12 @@ class Manager:
             self.prev_screen["reference"].print()
 
     def execute(self):
-        questions = self.generator.generate(5)
+        questions = self.generator.generate(2)
         result = {"correct": 0, "incorrect": 0}
 
         for question in questions:
-            os.system("clear")
-            print("Questão")
-            print(question.text)
-
-            print("")
-            print("Alternativas")
-            print(f'a) {question.alternatives["a"]}')
-            print(f'b) {question.alternatives["b"]}')
-            print(f'c) {question.alternatives["c"]}')
-            print(f'd) {question.alternatives["d"]}')
-
-            print("")
-            ans = int(input("Resposta:"))
-
-            if question.alternatives["ans"] == ans:
-                result["correct"] += 1
-                print("Acertou!")
-            else:
-                result["incorrect"] += 1
-                print("Errou!")
+            question.print()
+            question.check_answer(result)
             time.sleep(1)
         os.system("clear")
         return result
