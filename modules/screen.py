@@ -10,8 +10,9 @@ from modules.question import Manager
 
 class Screen(ABC):
 
-    routes = Routes() #https://www.python-course.eu/python3_abstract_classes.php
-    show_options = True
+    def __init__(self):
+        self.routes = Routes()
+        self.show_options = True
 
     def request_input(self):
         c = "--"
@@ -46,7 +47,7 @@ class MainScreen(Screen):
     def __init__(self):
         self.id = {"code": "Tela Principal",
                    "reference": self}
-        self.routes = Routes()
+        super().__init__()
         self.routes.addRoute("Jogar", "1", PlayScreen(self.id))
         self.routes.addRoute("Creditos", "2", CreditsScreen(self.id))
         self.routes.addRoute("Sair", "3", ExitScreen())
@@ -62,7 +63,7 @@ class CreditsScreen(Screen):
     def __init__(self, prev_reference):
         self.id = {"code": "credits",
                    "reference": self}
-        self.routes = Routes()
+        super().__init__()
         self.routes.addRoute(prev_reference["code"], "1", prev_reference["reference"])
         self.show_options = False
 
@@ -80,11 +81,11 @@ class PlayScreen(Screen):
     def __init__(self, prev_reference):
         self.id = {"code": "playGame",
                    "reference": self}
-        self.routes = Routes()
-        self.routes.addRoute("iniciar", "1", Manager("1", self.id))
-        self.routes.addRoute("iniciar", "2", Manager("2", self.id))
-        self.routes.addRoute("iniciar", "3", Manager("3", self.id))
-        self.routes.addRoute("iniciar", "4", Manager("4", self.id))
+        super().__init__()
+        self.routes.addRoute("Soma", "1", Manager("1", self.id))
+        self.routes.addRoute("Subtração", "2", Manager("2", self.id))
+        self.routes.addRoute("Multiplicação", "3", Manager("3", self.id))
+        self.routes.addRoute("Divisão", "4", Manager("4", self.id))
         self.routes.addRoute(prev_reference["code"], "5", prev_reference["reference"])
         self.question = ["1", "2", "3", "4", "5"]
 
@@ -102,8 +103,3 @@ class ExitScreen:
         time.sleep(0.5)
         os.system("clear")
         quit()
-
-
-
-
-

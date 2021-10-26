@@ -81,7 +81,7 @@ class Manager:
             result = self.execute()
             print("Parabéns você completou a sua jogada.")
             print(result)
-            time.sleep(2)
+            time.sleep(5)
             self.prev_screen["reference"].print()
         elif c in ["NAO", "N"]:
             self.prev_screen["reference"].print()
