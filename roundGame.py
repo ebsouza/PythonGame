@@ -84,11 +84,11 @@ class roundGame:
             validInput = False
             pattern = r"^[0-9]([0-9])*$"
             while (not validInput):
-                choose = raw_input()
+                choose = input("")
                 if re.match(pattern, choose):
                     validInput = True
                 else:
-                    print 'Entrada inválida'
+                    print('Entrada inválida')
             choose = int(choose)
 
             #Question duration

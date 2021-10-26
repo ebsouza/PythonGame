@@ -39,6 +39,6 @@ This object is responsible to give you fun, if it doesn’t do this it’s not m
 
 ## System Requirements
 
-Python 2.7 installed 
+Python 3.x installed 
 
 
