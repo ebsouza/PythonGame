@@ -10,10 +10,10 @@ from modules.question import Manager
 
 class Screen(ABC):
 
-    routes = Routes()
+    routes = Routes() #https://www.python-course.eu/python3_abstract_classes.php
     show_options = True
 
-    def requestInput(self):
+    def request_input(self):
         c = "--"
         while c not in self.routes.options:
             c = input("")
@@ -21,8 +21,8 @@ class Screen(ABC):
 
     def next(self, c):
         try:
-            nextScreen = self.routes.getReference(c)
-            nextScreen.print()
+            next_screen = self.routes.getReference(c)
+            next_screen.print()
         except Exception as e:
             print(f"Desculpe, ocorreu um erro. {e}")
 
@@ -34,7 +34,7 @@ class Screen(ABC):
             for data in self.routes.data:
                 print(f"[{data['option']}] - {data['code']} ")
 
-        self.requestInput()
+        self.request_input()
 
     @abstractmethod
     def text_screen(self):
@@ -44,11 +44,12 @@ class Screen(ABC):
 class MainScreen(Screen):
 
     def __init__(self):
-        self.id = {"code": "main",
+        self.id = {"code": "Tela Principal",
                    "reference": self}
-        self.routes.addRoute("playGame", "1", PlayScreen(self.id))
-        self.routes.addRoute("credits", "2", CreditsScreen(self.id))
-        self.routes.addRoute("exit", "3", ExitScreen())
+        self.routes = Routes()
+        self.routes.addRoute("Jogar", "1", PlayScreen(self.id))
+        self.routes.addRoute("Creditos", "2", CreditsScreen(self.id))
+        self.routes.addRoute("Sair", "3", ExitScreen())
 
     def text_screen(self):
         os.system("clear")
