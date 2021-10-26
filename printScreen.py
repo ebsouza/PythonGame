@@ -28,7 +28,7 @@ class printScreen:
         #User choose
         validInput = False
         pattern = r"^[1-4]$"
-        while (not validInput):
+        while not validInput:
             choose = input("")
             if re.match(pattern, choose):
                 validInput = True
@@ -50,29 +50,29 @@ class printScreen:
         self.resetScreen()
 
     #Gameplay header
-    def printHeader(self,right,wrong,round,score):
+    def printHeader(self, right, wrong, round, score):
         print('   ---------------------------------------------------')
-        print('   | Acertos: '+ str(right) + ' / Erros: ' + str(wrong) + ' / Round: ' + str(round) + \
-              ' / Pontuação: ' +  str(score) +' |')
+        print('   | Acertos: ' + str(right) + ' / Erros: ' + str(wrong) + ' / Round: ' + str(round) + \
+              ' / Pontuação: ' + str(score) + ' |')
         print('   ---------------------------------------------------')
         print('                   ')
 
     #Question
-    def printQuestion(self,a,b):
+    def printQuestion(self, a, b):
         print('           ---------------------------')
-        print('           |          ' + str(a) +' x '+ str(b) + '          |')
+        print('           |          ' + str(a) + ' x ' + str(b) + '          |')
         print('           ---------------------------')
 
     #Question Sum
-    def printSumQuestion(self,a,b):
+    def printSumQuestion(self, a, b):
         print('           ---------------------------')
-        print('           |          ' + str(a) +' + '+ str(b) + '          |')
+        print('           |          ' + str(a) + ' + ' + str(b) + '          |')
         print('           ---------------------------')
 
     #Question Sub
-    def printSubQuestion(self,a,b):
+    def printSubQuestion(self, a, b):
         print('           ---------------------------')
-        print('           |          ' + str(a) +' - '+ str(b) + '          |')
+        print('           |          ' + str(a) + ' - ' + str(b) + '          |')
         print('           ---------------------------')
 
     #Feedback during the gameplay

@@ -13,21 +13,21 @@ while choose != 4:
     choose = screen.initialScreen()
 
     #Start gameplay
-    if (choose == 1):
+    if choose == 1:
         #Instantiates the object gameplay
         game = roundGame('mult')
         #Start gameplay
         game.start()
         #Delete the gameplay object
         del game
-    if (choose == 2):
+    if choose == 2:
         #Instantiates the object gameplay
         game = roundGame('sum')
         #Start gameplay
         game.start()
         #Delete the gameplay object
         del game
-    if (choose == 3):
+    if choose == 3:
         #Instantiates the object gameplay
         game = roundGame('sub')
         #Start gameplay
