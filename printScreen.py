@@ -42,7 +42,7 @@ class printScreen:
     #How to play this game
     def howToPlay(self):
         print(' \n ')
-        print('O jogo termina quando você responde as 20 questões ou erra mais de 5 vezes.')
+        print('O jogo termina quando você responder as 20 questões ou errar mais de 5 vezes.')
         print('Boa sorte!')
         print(' \n ')
         print('Pressione qualquer tecla para iniciar a partida.')
