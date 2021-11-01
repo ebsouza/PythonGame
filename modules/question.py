@@ -29,22 +29,21 @@ class SumGenerator:
         return question_list
 
     def generate_alternatives(self, a, b):
+        from modules.utils import unique_non_zero_random_numbers
         keys = ("ans", "a", "b", "c", "d")
         alternatives = dict.fromkeys(keys, a + b)
 
-        increment_list = list()
+        increment_list = unique_non_zero_random_numbers(length=3,
+                                                        min_max=(-5, 5))
+        increment_index = 0
         do_not_increment = ["ans", random.choice(keys[1:])]
 
         for key, value in alternatives.items():
             if key in do_not_increment:
                 continue
 
-            increment = random.randint(-5, 5)
-            while increment == 0 or increment in increment_list:
-                increment = random.randint(-5, 5)
-                increment_list.append(increment)
-
-            alternatives[key] = value + increment
+            alternatives[key] = value + increment_list[increment_index]
+            increment_index += 1
 
         return alternatives
 
