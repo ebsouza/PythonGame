@@ -87,7 +87,6 @@ class PlayScreen(Screen):
         self.routes.addRoute("Multiplicação", "3", Manager("3", self.id))
         self.routes.addRoute("Divisão", "4", Manager("4", self.id))
         self.routes.addRoute(prev_reference["code"], "5", prev_reference["reference"])
-        self.question = ["1", "2", "3", "4", "5"]
 
     def text_screen(self):
         print("Modos de jogo \n")

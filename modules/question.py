@@ -7,19 +7,14 @@ import time
 
 class SumGenerator:
 
-    def generate(self, n=10):
+    def generate_question(self, n=10):
         question_list = list()
 
         while len(question_list) < n:
             a = random.randint(10, 20)
             b = random.randint(10, 20)
 
-            alternatives = dict()
-            alternatives["ans"] = a + b
-            alternatives["a"] = a + b + random.randint(-5, 5)
-            alternatives["b"] = a + b + random.randint(-5, 5)
-            alternatives["c"] = a + b + random.randint(-5, 5)
-            alternatives["d"] = a + b + random.randint(-5, 5)
+            alternatives = self.generate_alternatives(a, b)
 
             text = f"{a} + {b}"
             question = Question(alternatives=alternatives, text=text)
@@ -30,6 +25,26 @@ class SumGenerator:
             question_list.append(question)
 
         return question_list
+
+    def generate_alternatives(self, a, b):
+        keys = ("ans", "a", "b", "c", "d")
+        alternatives = dict.fromkeys(keys, a + b)
+
+        increment_list = list()
+        do_not_increment = ["ans", random.choice(keys[1:])]
+
+        for key, value in alternatives.items():
+            if key in do_not_increment:
+                continue
+
+            increment = random.randint(-5, 5)
+            while increment == 0 or increment in increment_list:
+                increment = random.randint(-5, 5)
+                increment_list.append(increment)
+
+            alternatives[key] = value + increment
+
+        return alternatives
 
 
 class Question:
@@ -58,7 +73,7 @@ class Question:
 
     def check_answer(self, result):
         print("")
-        ans = int(input("Resposta:"))
+        ans = int(input("Resposta: "))
 
         if self.alternatives["ans"] == ans:
             result["correct"] += 1
@@ -94,7 +109,7 @@ class Manager:
             self.prev_screen["reference"].print()
 
     def execute(self):
-        questions = self.generator.generate(2)
+        questions = self.generator.generate_question(2)
         result = {"correct": 0, "incorrect": 0}
 
         for question in questions:
@@ -106,6 +121,6 @@ class Manager:
 
     def print(self):
         os.system("clear")
-        print("Instruções aqui.")
+        print("Você irá iniciar a partida escolhida.")
         print("Avançar [S]SIM / [N]NAO?")
         self.requestInput()
