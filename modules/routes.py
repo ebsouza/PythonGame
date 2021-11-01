@@ -2,8 +2,8 @@
 
 class Routes:
     def __init__(self):
-        self.data = []
-        self.options = []
+        self.data = list()
+        self.options = list()
 
     def addRoute(self, code, option, reference):
         data = {"code": code, 

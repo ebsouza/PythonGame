@@ -9,7 +9,8 @@ class SumGenerator:
 
     def generate(self, n=10):
         question_list = list()
-        for i in range(n):
+
+        while len(question_list) < n:
             a = random.randint(10, 20)
             b = random.randint(10, 20)
 
@@ -22,6 +23,9 @@ class SumGenerator:
 
             text = f"{a} + {b}"
             question = Question(alternatives=alternatives, text=text)
+
+            if question in question_list:
+                continue
 
             question_list.append(question)
 
@@ -36,6 +40,9 @@ class Question:
 
     def __str__(self):
         return self.text
+
+    def __eq__(self, question):
+        return self.text == question.text
 
     def print(self):
         os.system("clear")
