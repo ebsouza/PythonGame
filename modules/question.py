@@ -71,17 +71,6 @@ class Question:
         print(f'c) {self.alternatives["c"]}')
         print(f'd) {self.alternatives["d"]}')
 
-    def check_answer(self, result):
-        print("")
-        ans = int(input("Resposta: "))
-
-        if self.alternatives["ans"] == ans:
-            result["correct"] += 1
-            print("Acertou!")
-        else:
-            result["incorrect"] += 1
-            print("Errou!")
-
 
 class Manager:
 
@@ -94,33 +83,45 @@ class Manager:
 
     def __init__(self, generator_code, prev_screen):
         self.generator = self.GENERATOR_MAPPER[generator_code]
+        self.result = {}
         self.prev_screen = prev_screen
 
     def requestInput(self):
         c = input("")
 
-        if c in ["SIM", "S"]:
-            result = self.execute()
-            print("Parabéns você completou a sua jogada.")
-            print(result)
-            time.sleep(5)
+        if c.lower() == "sair":
             self.prev_screen["reference"].print()
-        elif c in ["NAO", "N"]:
+        else:
+            self.execute()
+            print("Parabéns você completou a partida.")
+            print(self.result)
+            time.sleep(5)
             self.prev_screen["reference"].print()
 
     def execute(self):
         questions = self.generator.generate_question(2)
-        result = {"correct": 0, "incorrect": 0}
+        self.result = {"correct": 0, "incorrect": 0}
 
         for question in questions:
             question.print()
-            question.check_answer(result)
+            self.check_answer(question)
             time.sleep(1)
         os.system("clear")
-        return result
+
+    def check_answer(self, question):
+        print("")
+        ans = int(input("Resposta: "))
+
+        if question.alternatives["ans"] == ans:
+            self.result["correct"] += 1
+            print("Respota correta :)")
+        else:
+            self.result["incorrect"] += 1
+            print("Resposta INcorreta :/")
 
     def print(self):
         os.system("clear")
-        print("Você irá iniciar a partida escolhida.")
-        print("Avançar [S]SIM / [N]NAO?")
+        print("Preparado para iniciar uma nova partida? \n")
+        print("- Pressione qualquer tecla para INICIAR.")
+        print("- Digite SAIR para voltar a tela anterior.")
         self.requestInput()
