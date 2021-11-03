@@ -10,7 +10,7 @@ class gameStatistics():
         #Open or create statistics.csv file
         self.file = open("statistics.csv", "a")
 
-        #Create header in new file
+        # Create header in new file
         fileSize = os.path.getsize("statistics.csv")
         if fileSize == 0:
             self.file.write('Rounds    Right    Wrong    Duration        qMeanDuration    Score   typeQuestion')
@@ -19,7 +19,7 @@ class gameStatistics():
     #Saves the main records
     def saveRecords(self, rounds, right, wrong, duration, qMeanDuration, score, typeQuestion):
         self.file.write( '\n' + str(rounds) + '        ' + str(right) + '        ' + str(wrong) + '       ' + str(duration) +
-                         '     ' + str(qMeanDuration) + '     ' + str(score) + '    ' + str(typeQuestion) )
+                         '     ' + str(qMeanDuration) + '     ' + str(score) + '    ' + str(typeQuestion))
 
     #Closes file when this is destructed
     def __del__(self):
