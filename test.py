@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from modules.question import SumGenerator
+from modules.question import SumGenerator, SubGenerator, MultGenerator
 from modules.utils import unique_non_zero_random_numbers
 
 
@@ -13,6 +13,27 @@ class SumGeneratorTest(unittest.TestCase):
     def test_question_length(self):
         questions = self.generator.generate_question()
         self.assertEqual(len(questions), 10)
+
+
+class SubGeneratorTest(unittest.TestCase):
+
+    def setUp(self):
+        self.generator = SubGenerator()
+
+    def test_question_length(self):
+        questions = self.generator.generate_question()
+        self.assertEqual(len(questions), 10)
+
+
+class MultGeneratorTest(unittest.TestCase):
+
+    def setUp(self):
+        self.generator = MultGenerator()
+
+    def test_question_length(self):
+        questions = self.generator.generate_question()
+        self.assertEqual(len(questions), 10)
+
 
 class UtilsTest(unittest.TestCase):
 

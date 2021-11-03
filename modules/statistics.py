@@ -13,7 +13,7 @@ class Statistics:
         self.file.close()
 
     def create_header(self):
-        self.file.write('Correct, Incorrect, Duration')
+        self.file.write('Correct, Incorrect, Duration(s)')
 
     def saveRecords(self, correct, incorrect, duration):
         self.file = open("statistics.csv", "a")

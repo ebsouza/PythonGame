@@ -7,7 +7,24 @@ import time
 from modules.statistics import Statistics
 
 
-class SumGenerator:
+class QuestionGenerator:
+
+    operation_mapper = {
+                        "+": lambda a, b: a + b,
+                        "-": lambda a, b: a - b,
+                        "*": lambda a, b: a * b,
+                        "/": lambda a, b: a / b,
+                        }
+
+    def __init__(self, operation):
+        self.operation = operation
+
+    def text(self, a, b):
+        return f"{a} {self.operation} {b}"
+
+    def operate(self, a, b):
+        operation = self.operation_mapper[self.operation]
+        return operation(a, b)
 
     def generate_question(self, n=10):
         question_list = list()
@@ -18,7 +35,7 @@ class SumGenerator:
 
             alternatives = self.generate_alternatives(a, b)
 
-            text = f"{a} + {b}"
+            text = self.text(a, b)
             question = Question(alternatives=alternatives, text=text)
 
             if question in question_list:
@@ -31,7 +48,8 @@ class SumGenerator:
     def generate_alternatives(self, a, b):
         from modules.utils import unique_non_zero_random_numbers
         keys = ("ans", "a", "b", "c", "d")
-        alternatives = dict.fromkeys(keys, a + b)
+        answer = self.operate(a, b)
+        alternatives = dict.fromkeys(keys, answer)
 
         increment_list = unique_non_zero_random_numbers(length=3,
                                                         min_max=(-5, 5))
@@ -46,6 +64,23 @@ class SumGenerator:
             increment_index += 1
 
         return alternatives
+
+
+class SumGenerator(QuestionGenerator):
+
+    def __init__(self):
+        super().__init__("+")
+
+
+class SubGenerator(QuestionGenerator):
+
+    def __init__(self):
+        super().__init__("-")
+
+class MultGenerator(QuestionGenerator):
+
+    def __init__(self):
+        super().__init__("*")
 
 
 class Question:
@@ -77,9 +112,8 @@ class Manager:
 
     GENERATOR_MAPPER = {
         "1": SumGenerator(),
-        "2": SumGenerator(),
-        "3": SumGenerator(),
-        "4": SumGenerator()
+        "2": SubGenerator(),
+        "3": MultGenerator()
     }
 
     def __init__(self, generator_code, prev_screen):
