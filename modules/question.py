@@ -3,11 +3,12 @@
 import random
 import os
 import time
+from abc import ABC, abstractmethod
 
 from modules.statistics import Statistics
 
 
-class QuestionGenerator:
+class QuestionGenerator(ABC):
 
     operation_mapper = {
                         "+": lambda a, b: a + b,
@@ -26,12 +27,15 @@ class QuestionGenerator:
         operation = self.operation_mapper[self.operation]
         return operation(a, b)
 
+    @abstractmethod
+    def generate_a_b(self):
+        pass
+
     def generate_question(self, n=10):
         question_list = list()
 
         while len(question_list) < n:
-            a = random.randint(10, 20)
-            b = random.randint(10, 20)
+            a, b = self.generate_a_b()
 
             alternatives = self.generate_alternatives(a, b)
 
@@ -71,16 +75,36 @@ class SumGenerator(QuestionGenerator):
     def __init__(self):
         super().__init__("+")
 
+    def generate_a_b(self):
+        a = random.randint(10, 20)
+        b = random.randint(10, 20)
+        return a, b
+
 
 class SubGenerator(QuestionGenerator):
 
     def __init__(self):
         super().__init__("-")
 
+    def generate_a_b(self):
+        a = random.randint(15, 30)
+        b = random.randint(10, 20)
+        if a < b:
+            return b, a
+        return a, b
+
+
 class MultGenerator(QuestionGenerator):
 
     def __init__(self):
         super().__init__("*")
+
+    def generate_a_b(self):
+        a = random.randint(5, 10)
+        b = random.randint(5, 10)
+        if a > b:
+            return b, a
+        return a, b
 
 
 class Question:
@@ -136,7 +160,7 @@ class Manager:
             self.prev_screen["reference"].print()
 
     def execute(self):
-        questions = self.generator.generate_question(2)
+        questions = self.generator.generate_question(5)
         self.init_result()
 
         start_time = time.time()
