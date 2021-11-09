@@ -1,4 +1,7 @@
 # PythonGame
+
+![alt text](assets/PythonGame.jpg "Title")
+
 A simple math Q&A game written in python.
 
 ## How to play
