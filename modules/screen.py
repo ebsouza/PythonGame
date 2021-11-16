@@ -67,7 +67,7 @@ class CreditsScreen(Screen):
         self.routes.addRoute(prev_reference["code"], "1", prev_reference["reference"])
         self.show_options = False
 
-    def requestInput(self):
+    def request_input(self):
         input("")
         self.next("1")
 
