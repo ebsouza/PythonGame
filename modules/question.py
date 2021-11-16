@@ -180,17 +180,17 @@ class Manager:
 
     def check_answer(self, question):
         print("")
-        ans = int(input("Resposta: "))
+        ans = int(input("Resultado a operação: "))
 
         if question.alternatives["ans"] == ans:
             self.result["correct"] += 1
-            print("\nRespota CORRETA")
+            print("\nResposta CORRETA")
         else:
             self.result["incorrect"] += 1
             print("\nResposta incorreta")
 
     def print_result(self):
-        print("Parabéns você completou a partida. \n")
+        print("Parabéns! Você completou a partida. \n")
         print("Acertos: {}".format(self.result["correct"]))
         print("Erros: {}".format(self.result["incorrect"]))
         print("Duração: {:.1f} segundos".format(self.result["duration"]))
@@ -198,6 +198,7 @@ class Manager:
     def print(self):
         os.system("clear")
         print("Preparado para iniciar uma nova partida? \n")
+        print("- Digite sempre o valor do resultado da questão.")
         print("- Pressione qualquer tecla para INICIAR.")
         print("- Digite SAIR para voltar a tela anterior.")
         self.requestInput()
