@@ -4,8 +4,8 @@ import os
 import time
 from abc import ABC, abstractmethod
 
-from modules.routes import Routes
-from modules.question import Manager
+from controller.routes import Routes
+from domain.manager import Manager
 
 
 class Screen(ABC):

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from modules.question import SumGenerator, SubGenerator, MultGenerator
+from domain.generator import SumGenerator, SubGenerator, MultGenerator
 
-from modules.utils import unique_non_zero_random_numbers
+from domain.utils import unique_non_zero_random_numbers
 
 
 class AbstractGeneratorTest(unittest.TestCase):

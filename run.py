@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from modules.screen import MainScreen
+from controller.screen import MainScreen
 
 main = MainScreen()
 main.print()
