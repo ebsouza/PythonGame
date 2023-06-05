@@ -15,6 +15,6 @@ class Statistics:
 
         self.file.close()
 
-    def saveRecords(self, correct, incorrect, duration):
+    def save_records(self, correct, incorrect, duration):
         with open(statistic_file, "a") as file:
             file.write('\n' + str(correct) + ', ' + str(incorrect) + ',  ' + str(duration))

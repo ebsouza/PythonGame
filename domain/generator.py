@@ -2,7 +2,9 @@
 
 import random
 from abc import ABC, abstractmethod
+
 from domain.question import Question
+from domain.utils import unique_non_zero_random_numbers
 
 
 class QuestionGenerator(ABC):
@@ -17,7 +19,7 @@ class QuestionGenerator(ABC):
     def __init__(self, operation):
         self.operation = operation
 
-    def text(self, a, b):
+    def create_text(self, a, b):
         return f"{a} {self.operation} {b}"
 
     def operate(self, a, b):
@@ -29,25 +31,23 @@ class QuestionGenerator(ABC):
         pass
 
     def generate_question(self, n=10):
-        question_list = list()
+        questions = list()
 
-        while len(question_list) < n:
+        while len(questions) < n:
             a, b = self.generate_a_b()
 
             alternatives = self.generate_alternatives(a, b)
-
-            text = self.text(a, b)
+            text = self.create_text(a, b)
             question = Question(alternatives=alternatives, text=text)
 
-            if question in question_list:
+            if question in questions:
                 continue
 
-            question_list.append(question)
+            questions.append(question)
 
-        return question_list
+        return questions
 
     def generate_alternatives(self, a, b):
-        from modules.utils import unique_non_zero_random_numbers
         keys = ("ans", "a", "b", "c", "d")
         answer = self.operate(a, b)
         alternatives = dict.fromkeys(keys, answer)
