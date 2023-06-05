@@ -7,13 +7,13 @@ A simple math Q&A game written in python.
 ## How to play
 
 ```
-python3 run.py
+python main.py
 ```
 
 ### Running Tests
 
 ```
-python3 test.py
+python test.py
 ```
 
 ## System Requirements
