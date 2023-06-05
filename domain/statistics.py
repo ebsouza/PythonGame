@@ -2,20 +2,19 @@
 
 import os
 
+from config import statistic_file
+
+
 class Statistics:
 
     def __init__(self):
-        self.file = open("statistics.csv", "a")
+        self.file = open(statistic_file, "a")
 
-        if os.path.getsize("statistics.csv") == 0:
-            self.create_header()
+        if os.path.getsize(statistic_file) == 0:
+            self.file.write('Correct, Incorrect, Duration(s)')
 
         self.file.close()
 
-    def create_header(self):
-        self.file.write('Correct, Incorrect, Duration(s)')
-
-    def saveRecords(self, correct, incorrect, duration):
-        self.file = open("statistics.csv", "a")
-        self.file.write('\n' + str(correct) + ', ' + str(incorrect) + ',  ' + str(duration))
-        self.file.close()
+    def save_records(self, correct, incorrect, duration):
+        with open(statistic_file, "a") as file:
+            file.write('\n' + str(correct) + ', ' + str(incorrect) + ',  ' + str(duration))

@@ -2,44 +2,9 @@
 
 import os
 import time
-from abc import ABC, abstractmethod
 
-from controller.routes import Routes
-from domain.manager import Manager
-
-
-class Screen(ABC):
-
-    def __init__(self):
-        self.routes = Routes()
-        self.show_options = True
-
-    def request_input(self):
-        c = "--"
-        while c not in self.routes.options:
-            c = input("")
-        self.next(c)
-
-    def next(self, c):
-        try:
-            next_screen = self.routes.getReference(c)
-            next_screen.print()
-        except Exception as e:
-            print(f"Desculpe, ocorreu um erro. {e}")
-
-    def print(self):
-        os.system("clear")
-        self.text_screen()
-
-        if self.show_options:
-            for data in self.routes.data:
-                print(f"[{data['option']}] - {data['code']} ")
-
-        self.request_input()
-
-    @abstractmethod
-    def text_screen(self):
-        pass
+from screen.base import Screen
+from screen.longterm import PlayScreen
 
 
 class MainScreen(Screen):
@@ -48,7 +13,7 @@ class MainScreen(Screen):
         self.id = {"code": "Tela Principal",
                    "reference": self}
         super().__init__()
-        self.routes.addRoute("Jogar", "1", PlayScreen(self.id))
+        self.routes.addRoute("Jogar", "1", StartToPlayScreen(self.id))
         self.routes.addRoute("Creditos", "2", CreditsScreen(self.id))
         self.routes.addRoute("Sair", "3", ExitScreen())
 
@@ -76,15 +41,15 @@ class CreditsScreen(Screen):
         print("Pressione [ENTER] para sair")
 
 
-class PlayScreen(Screen):
+class StartToPlayScreen(Screen):
 
     def __init__(self, prev_reference):
         self.id = {"code": "playGame",
                    "reference": self}
         super().__init__()
-        self.routes.addRoute("Soma", "1", Manager("1", self.id))
-        self.routes.addRoute("Subtração", "2", Manager("2", self.id))
-        self.routes.addRoute("Multiplicação", "3", Manager("3", self.id))
+        self.routes.addRoute("Soma", "1", PlayScreen("1", self.id))
+        self.routes.addRoute("Subtração", "2", PlayScreen("2", self.id))
+        self.routes.addRoute("Multiplicação", "3", PlayScreen("3", self.id))
         self.routes.addRoute(prev_reference["code"], "4", prev_reference["reference"])
 
     def text_screen(self):

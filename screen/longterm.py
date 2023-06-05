@@ -3,10 +3,11 @@
 import os
 import time
 
-from domain.generator import SumGenerator, SubGenerator, MultGenerator
+from domain.generator import MultGenerator, SubGenerator, SumGenerator
 from domain.statistics import Statistics
 
-class Manager:
+
+class PlayScreen:
 
     GENERATOR_MAPPER = {
         "1": SumGenerator(),
@@ -20,14 +21,14 @@ class Manager:
         self.prev_screen = prev_screen
         self.statistics = Statistics()
 
-    def requestInput(self):
+    def request_input(self):
         c = input("")
 
         if c.lower() == "sair":
             self.prev_screen["reference"].print()
         else:
             self.execute()
-            self.statistics.saveRecords(self.result["correct"],
+            self.statistics.save_records(self.result["correct"],
                                         self.result["incorrect"],
                                         self.result["duration"])
             time.sleep(5)
@@ -39,8 +40,8 @@ class Manager:
 
         start_time = time.time()
         for question in questions:
-            question.print()
-            self.check_answer(question)
+            self.print_question(question)
+            self.read_answer(question)
             time.sleep(1)
 
         self.result["duration"] = time.time() - start_time
@@ -52,9 +53,9 @@ class Manager:
                        "incorrect": 0,
                        "duration": 0}
 
-    def check_answer(self, question):
+    def read_answer(self, question):
         print("")
-        ans = int(input("Resultado a operação: "))
+        ans = int(input("Resultado da operação: "))
 
         if question.alternatives["ans"] == ans:
             self.result["correct"] += 1
@@ -75,4 +76,16 @@ class Manager:
         print("- Digite sempre o valor do resultado da questão.")
         print("- Pressione qualquer tecla para INICIAR.")
         print("- Digite SAIR para voltar a tela anterior.")
-        self.requestInput()
+        self.request_input()
+
+    def print_question(self, question):
+        os.system("clear")
+        print("Questão")
+        print(question.text)
+
+        print("")
+        print("Alternativas")
+        print(f'a) {question.alternatives["a"]}')
+        print(f'b) {question.alternatives["b"]}')
+        print(f'c) {question.alternatives["c"]}')
+        print(f'd) {question.alternatives["d"]}')

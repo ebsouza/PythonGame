@@ -47,7 +47,7 @@ class SumGeneratorTest(unittest.TestCase):
         self.b = 5
 
     def test_text(self):
-        text = self.generator.text(self.a, self.b)
+        text = self.generator.create_text(self.a, self.b)
         self.assertEqual(text, f"{self.a} + {self.b}")
 
     def test_operate(self):
@@ -68,7 +68,7 @@ class SubGeneratorTest(unittest.TestCase):
         self.b = 5
 
     def test_text(self):
-        text = self.generator.text(self.a, self.b)
+        text = self.generator.create_text(self.a, self.b)
         self.assertEqual(text, f"{self.a} - {self.b}")
 
     def test_operate(self):
@@ -90,7 +90,7 @@ class MultGeneratorTest(unittest.TestCase):
         self.b = 5
 
     def test_text(self):
-        text = self.generator.text(self.a, self.b)
+        text = self.generator.create_text(self.a, self.b)
         self.assertEqual(text, f"{self.a} * {self.b}")
 
     def test_operate(self):
@@ -114,7 +114,7 @@ class UtilsTest(unittest.TestCase):
 
     def test_unique_non_zero_random_numbers_range(self):
         min_value, max_value = -20, 20
-        numbers_list = unique_non_zero_random_numbers(10, (min_value, max_value))
+        numbers_list = unique_non_zero_random_numbers(10, min_value, max_value)
         self.assertTrue(min(numbers_list) >= min_value)
         self.assertTrue(max(numbers_list) <= max_value)
 
