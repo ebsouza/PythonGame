@@ -52,8 +52,7 @@ class QuestionGenerator(ABC):
         answer = self.operate(a, b)
         alternatives = dict.fromkeys(keys, answer)
 
-        increment_list = unique_non_zero_random_numbers(length=3,
-                                                        min_max=(-5, 5))
+        increment_list = unique_non_zero_random_numbers(3)
         increment_index = 0
         do_not_increment = ["ans", random.choice(keys[1:])]
 

@@ -3,19 +3,16 @@
 import random
 
 
-def unique_non_zero_random_numbers(length=0, min_max=(-100, 100)):
+def unique_non_zero_random_numbers(n=1, min=-5, max=5):
 
-    if not length:
-        return list()
+    numbers = set()
 
-    random_numbers = list()
-    tmp = random.randint(min_max[0], min_max[1])
+    while len(numbers) < n:
+        element = random.randint(min, max)
 
-    for i in range(length):
+        if element == 0:
+            continue
 
-        while tmp in random_numbers or tmp == 0:
-            tmp = random.randint(min_max[0], min_max[1])
+        numbers.add(element)
 
-        random_numbers.append(tmp)
-
-    return random_numbers
+    return list(numbers)
