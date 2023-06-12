@@ -4,8 +4,8 @@ import os
 import time
 
 from domain.generator import MultGenerator, SubGenerator, SumGenerator
-from domain.statistics import Statistics
-
+from domain.session import Session
+from data.persist import save_session
 
 class PlayScreen:
 
@@ -17,9 +17,9 @@ class PlayScreen:
 
     def __init__(self, generator_code, prev_screen):
         self.generator = self.GENERATOR_MAPPER[generator_code]
-        self.result = dict()
         self.prev_screen = prev_screen
-        self.statistics = Statistics()
+        self.session = Session()
+        self.result = {"correct": 0, "incorrect": 0}
 
     def request_input(self):
         c = input("")
@@ -28,30 +28,27 @@ class PlayScreen:
             self.prev_screen["reference"].print()
         else:
             self.execute()
-            self.statistics.save_records(self.result["correct"],
-                                        self.result["incorrect"],
-                                        self.result["duration"])
             time.sleep(5)
             self.prev_screen["reference"].print()
 
     def execute(self):
         questions = self.generator.generate_question(5)
-        self.init_result()
 
-        start_time = time.time()
+        self.session.start()
         for question in questions:
             self.print_question(question)
             self.read_answer(question)
             time.sleep(1)
 
-        self.result["duration"] = time.time() - start_time
+        self.session.save_record(self.result)
+        self.session.finish()
+
+        print(self.result)
+        print(self.session.data)
+
+        save_session(self.session)
         os.system("clear")
         self.print_result()
-
-    def init_result(self):
-        self.result = {"correct": 0,
-                       "incorrect": 0,
-                       "duration": 0}
 
     def read_answer(self, question):
         print("")
@@ -68,7 +65,7 @@ class PlayScreen:
         print("Parabéns! Você completou a partida. \n")
         print("Acertos: {}".format(self.result["correct"]))
         print("Erros: {}".format(self.result["incorrect"]))
-        print("Duração: {:.1f} segundos".format(self.result["duration"]))
+        print("Duração: {:.1f} segundos".format(self.session.elapsed_time))
 
     def print(self):
         os.system("clear")

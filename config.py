@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
 
-statistic_file = "statistics.csv"
+session_file = "sessions.csv"
