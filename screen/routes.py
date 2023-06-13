@@ -1,25 +1,55 @@
 # -*- coding: utf-8 -*-
 
-class Routes:
+import os
+
+from screen.common import Screen
+from screen.fixed import ExitScreen, PlayScreen
+
+
+class MainScreen(Screen):
+
     def __init__(self):
-        self.data = list()
-        self.options = list()
+        self.id = {"code": "Tela Principal",
+                   "reference": self}
+        super().__init__()
+        self.routes.addRoute("Jogar", "1", StartToPlayScreen(self.id))
+        self.routes.addRoute("Creditos", "2", CreditsScreen(self.id))
+        self.routes.addRoute("Sair", "3", ExitScreen())
 
-    def addRoute(self, code, option, reference):
-        data = {"code": code, 
-                "option": option, 
-                "reference": reference}
-        self.data.append(data)
-        self.updateOptions()
+    def text_screen(self):
+        os.system("clear")
+        print("Seja bem-vindo")
+        print("Escolha as opções:")
 
-    def updateOptions(self):
-        self.options = [i["option"] for i in self.data]
 
-    def getReference(self, option):
-        for data in self.data:
-            try:
-                if data["option"] == option:
-                    return data["reference"]
-            except KeyError:
-                pass
-        return None
+class CreditsScreen(Screen):
+
+    def __init__(self, prev_reference):
+        self.id = {"code": "credits",
+                   "reference": self}
+        super().__init__()
+        self.routes.addRoute(prev_reference["code"], "1", prev_reference["reference"])
+        self.show_options = False
+
+    def request_input(self):
+        input("")
+        self.next("1")
+
+    def text_screen(self):
+        print("Developed by EBSouza \n \n")
+        print("Pressione [ENTER] para sair")
+
+
+class StartToPlayScreen(Screen):
+
+    def __init__(self, prev_reference):
+        self.id = {"code": "playGame",
+                   "reference": self}
+        super().__init__()
+        self.routes.addRoute("Soma", "1", PlayScreen("1", self.id))
+        self.routes.addRoute("Subtração", "2", PlayScreen("2", self.id))
+        self.routes.addRoute("Multiplicação", "3", PlayScreen("3", self.id))
+        self.routes.addRoute(prev_reference["code"], "4", prev_reference["reference"])
+
+    def text_screen(self):
+        print("Modos de jogo \n")

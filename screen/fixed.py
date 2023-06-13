@@ -3,57 +3,90 @@
 import os
 import time
 
-from screen.base import Screen
-from screen.longterm import PlayScreen
+from domain.generator import MultGenerator, SubGenerator, SumGenerator
+from domain.session import Session
+from data.persist import save_session
 
 
-class MainScreen(Screen):
+class PlayScreen:
 
-    def __init__(self):
-        self.id = {"code": "Tela Principal",
-                   "reference": self}
-        super().__init__()
-        self.routes.addRoute("Jogar", "1", StartToPlayScreen(self.id))
-        self.routes.addRoute("Creditos", "2", CreditsScreen(self.id))
-        self.routes.addRoute("Sair", "3", ExitScreen())
+    GENERATOR_MAPPER = {
+        "1": SumGenerator(),
+        "2": SubGenerator(),
+        "3": MultGenerator()
+    }
 
-    def text_screen(self):
-        os.system("clear")
-        print("Seja bem-vindo")
-        print("Escolha as opções:")
-
-
-class CreditsScreen(Screen):
-
-    def __init__(self, prev_reference):
-        self.id = {"code": "credits",
-                   "reference": self}
-        super().__init__()
-        self.routes.addRoute(prev_reference["code"], "1", prev_reference["reference"])
-        self.show_options = False
+    def __init__(self, generator_code, prev_screen):
+        self.generator = self.GENERATOR_MAPPER[generator_code]
+        self.prev_screen = prev_screen
+        self.session = Session()
+        self.result = {"correct": 0, "incorrect": 0}
 
     def request_input(self):
-        input("")
-        self.next("1")
+        c = input("")
 
-    def text_screen(self):
-        print("Developed by EBSouza \n \n")
-        print("Pressione [ENTER] para sair")
+        if c.lower() == "sair":
+            self.prev_screen["reference"].print()
+        else:
+            self.execute()
+            time.sleep(5)
+            self.prev_screen["reference"].print()
 
+    def execute(self):
+        questions = self.generator.generate_question(5)
 
-class StartToPlayScreen(Screen):
+        self.session.start()
+        for question in questions:
+            self.print_question(question)
+            self.read_answer(question)
+            time.sleep(1)
 
-    def __init__(self, prev_reference):
-        self.id = {"code": "playGame",
-                   "reference": self}
-        super().__init__()
-        self.routes.addRoute("Soma", "1", PlayScreen("1", self.id))
-        self.routes.addRoute("Subtração", "2", PlayScreen("2", self.id))
-        self.routes.addRoute("Multiplicação", "3", PlayScreen("3", self.id))
-        self.routes.addRoute(prev_reference["code"], "4", prev_reference["reference"])
+        self.session.save_record(self.result)
+        self.session.finish()
 
-    def text_screen(self):
-        print("Modos de jogo \n")
+        print(self.result)
+        print(self.session.data)
+
+        save_session(self.session)
+        os.system("clear")
+        self.print_result()
+
+    def read_answer(self, question):
+        print("")
+        ans = int(input("Resultado da operação: "))
+
+        if question.alternatives["ans"] == ans:
+            self.result["correct"] += 1
+            print("\nResposta CORRETA")
+        else:
+            self.result["incorrect"] += 1
+            print("\nResposta incorreta")
+
+    def print_result(self):
+        print("Parabéns! Você completou a partida. \n")
+        print("Acertos: {}".format(self.result["correct"]))
+        print("Erros: {}".format(self.result["incorrect"]))
+        print("Duração: {:.1f} segundos".format(self.session.elapsed_time))
+
+    def print(self):
+        os.system("clear")
+        print("Preparado para iniciar uma nova partida? \n")
+        print("- Digite sempre o valor do resultado da questão.")
+        print("- Pressione qualquer tecla para INICIAR.")
+        print("- Digite SAIR para voltar a tela anterior.")
+        self.request_input()
+
+    def print_question(self, question):
+        os.system("clear")
+        print("Questão")
+        print(question.text)
+
+        print("")
+        print("Alternativas")
+        print(f'a) {question.alternatives["a"]}')
+        print(f'b) {question.alternatives["b"]}')
+        print(f'c) {question.alternatives["c"]}')
+        print(f'd) {question.alternatives["d"]}')
 
 
 class ExitScreen:
