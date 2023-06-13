@@ -5,7 +5,7 @@ import time
 
 from domain.generator import MultGenerator, SubGenerator, SumGenerator
 from domain.session import Session
-from data.persist import save_session
+from data.persistence import save_session
 
 
 class PlayScreen:
