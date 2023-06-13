@@ -5,7 +5,8 @@ import time
 
 from domain.generator import MultGenerator, SubGenerator, SumGenerator
 from domain.session import Session
-from data.persist import save_session
+from data.persistence import save_session
+
 
 class PlayScreen:
 
@@ -86,3 +87,15 @@ class PlayScreen:
         print(f'b) {question.alternatives["b"]}')
         print(f'c) {question.alternatives["c"]}')
         print(f'd) {question.alternatives["d"]}')
+
+
+class ExitScreen:
+
+    def print(self):
+        os.system("clear")
+        print("Obrigado pela sua participação \n \n")
+        print("Pressione qualquer tecla para sair")
+        input("")
+        time.sleep(0.5)
+        os.system("clear")
+        quit()

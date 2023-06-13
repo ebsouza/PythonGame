@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from screen.shortterm import MainScreen
+from screen.routes import MainScreen
 
 main = MainScreen()
 main.print()
